@@ -5,11 +5,13 @@ builder.AddServiceDefaults();
 
 // Add services to the container.
 builder.Services.AddProblemDetails();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
+app.UseCors( builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader() );
 
 var summaries = new[]
 {
