@@ -5,13 +5,29 @@ builder.AddServiceDefaults();
 
 // Add services to the container.
 builder.Services.AddProblemDetails();
+
+builder.Services.AddCors(options =>
+{
+    // Define a development-specific CORS policy
+    options.AddPolicy("OpenCORS", policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });   
+});
 builder.Services.AddCors();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
-app.UseCors( builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader() );
+
+if(app.Environment.IsDevelopment())
+{
+   app.UseCors("OpenCORS"); 
+}
+
+//app.UseCors( builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());   
+ 
 
 var summaries = new[]
 {
