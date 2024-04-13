@@ -1,3 +1,4 @@
+using Aspire.Hosting;
 using TossAndFetchScoring.AppHost;
 
 var builder = DistributedApplication.CreateBuilder(args);
@@ -9,6 +10,6 @@ var apiService = builder.AddProject<Projects.TossAndFetchScoring_ApiService>("ap
 builder.AddNpmApp("react", "../TossAndFetchScoring.Web","dev")
     .WithReference(apiService)
     .WithEnvironmentPrefix("VITE_") 
-    .WithEndpoint(5173,"http","frontend","PORT");
+    .WithHttpEndpoint(targetPort:3001,env:"PORT");
     
 builder.Build().Run();
